@@ -24,14 +24,14 @@ namespace TreeckoV2
         public async Task MainAsync()
         {
             var _config = new DiscordSocketConfig { MessageCacheSize = 100 };
-            _client = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Debug});
+            _client = new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Debug });
             _commandService = new CommandService(new CommandServiceConfig
             {
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
                 LogLevel = LogSeverity.Debug
             });
-            
+
 
             _client.Log += Log;
 
@@ -46,7 +46,6 @@ namespace TreeckoV2
             _initialize = new Initialize(_commandService, _client);
             _initialize.BuildServiceProvider();
 
-            _client.MessageUpdated += MessageUpdated;
             _client.JoinedGuild += JoinedGuild;
 
             _client.Ready += () =>
@@ -56,12 +55,6 @@ namespace TreeckoV2
             };
 
             await Task.Delay(-1);
-        }
-
-        private async Task MessageUpdated(Cacheable<IMessage, ulong> before, SocketMessage after, ISocketMessageChannel channel)
-        {
-            var message = await before.GetOrDownloadAsync();
-            Console.WriteLine($"{message} → {after}");
         }
 
         private async Task JoinedGuild(SocketGuild guild)
@@ -95,6 +88,5 @@ namespace TreeckoV2
 
             return File.ReadAllText(file);
         }
-
     }
 }

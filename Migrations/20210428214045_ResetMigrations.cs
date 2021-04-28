@@ -2,7 +2,7 @@
 
 namespace TreeckoV2.Migrations
 {
-    public partial class ResetMigration : Migration
+    public partial class ResetMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,19 @@ namespace TreeckoV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Guilds",
+                columns: table => new
+                {
+                    ID = table.Column<ulong>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Prefix = table.Column<string>(type: "TEXT", maxLength: 3, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guilds", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Moves",
                 columns: table => new
                 {
@@ -35,11 +48,38 @@ namespace TreeckoV2.Migrations
                     Accuracy = table.Column<int>(type: "INTEGER", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     SecondaryEffect = table.Column<string>(type: "TEXT", nullable: true),
-                    SecondaryEffectRate = table.Column<int>(type: "INTEGER", nullable: false)
+                    SecondaryEffectRate = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Moves", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OldPokes",
+                columns: table => new
+                {
+                    DexNr = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    japName = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Classification = table.Column<string>(type: "TEXT", nullable: true),
+                    Height = table.Column<float>(type: "REAL", nullable: false),
+                    Weight = table.Column<float>(type: "REAL", nullable: false),
+                    HP = table.Column<int>(type: "INTEGER", nullable: false),
+                    Atk = table.Column<int>(type: "INTEGER", nullable: false),
+                    Def = table.Column<int>(type: "INTEGER", nullable: false),
+                    SpAtk = table.Column<int>(type: "INTEGER", nullable: false),
+                    SpDef = table.Column<int>(type: "INTEGER", nullable: false),
+                    Spd = table.Column<int>(type: "INTEGER", nullable: false),
+                    Pic = table.Column<string>(type: "TEXT", nullable: true),
+                    PicShiny = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OldPokes", x => x.DexNr);
                 });
 
             migrationBuilder.CreateTable(
@@ -267,7 +307,13 @@ namespace TreeckoV2.Migrations
                 name: "EggMoves");
 
             migrationBuilder.DropTable(
+                name: "Guilds");
+
+            migrationBuilder.DropTable(
                 name: "LevelUpMoves");
+
+            migrationBuilder.DropTable(
+                name: "OldPokes");
 
             migrationBuilder.DropTable(
                 name: "PokedexEntry");

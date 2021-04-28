@@ -67,6 +67,25 @@ namespace TreeckoV2.Commands
             }
         }
 
+        [Command("GetPrefix")]
+        public async Task GetPrefix()
+        {
+            using (var context = new AppDbContext())
+            {
+                var guild = context.Guilds.FirstOrDefault(g => g.ID == Context.Guild.Id);
+
+                if (guild is null)
+                {
+                    await ReplyAsync("The current prefix is s-");
+                    return;
+                }
+                else
+                {
+                    await ReplyAsync($"The current prefix is {guild.Prefix}");
+                }
+            }
+        }
+
         private void SetPrefixDatabase(AppDbContext context, DiscordGuild guild, ulong guildID, string prefix)
         {
             if (guild is null)

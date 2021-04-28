@@ -9,14 +9,85 @@ using TreeckoV2.Models;
 namespace TreeckoV2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210428095656_ResetMigration")]
-    partial class ResetMigration
+    [Migration("20210428214045_ResetMigrations")]
+    partial class ResetMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.5");
+
+            modelBuilder.Entity("TreeckoV2.Models.DiscordGuild", b =>
+                {
+                    b.Property<ulong>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Prefix")
+                        .HasMaxLength(3)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Guilds");
+                });
+
+            modelBuilder.Entity("TreeckoV2.Models.OldPokemon", b =>
+                {
+                    b.Property<int>("DexNr")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Atk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Classification")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Def")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HP")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Pic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PicShiny")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SpAtk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SpDef")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Spd")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("japName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DexNr");
+
+                    b.ToTable("OldPokes");
+                });
 
             modelBuilder.Entity("TreeckoV2.Models.PokedexEntry", b =>
                 {
@@ -208,7 +279,7 @@ namespace TreeckoV2.Migrations
                     b.Property<string>("SecondaryEffect")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SecondaryEffectRate")
+                    b.Property<int?>("SecondaryEffectRate")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");

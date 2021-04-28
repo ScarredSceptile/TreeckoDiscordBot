@@ -37,6 +37,7 @@ namespace TreeckoV2.Discord
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
+
             //Use message.content for general command stuff
 
             int argPos = 0;
@@ -47,20 +48,13 @@ namespace TreeckoV2.Discord
 
             var guildID = channel.Guild.Id;
 
-            using (var db = new AppDbContext())
-            {
-                Console.WriteLine(guildID);
+            var db = new AppDbContext();
+            var currentGuild = db.Guilds.FirstOrDefault(g => g.ID == guildID);
 
-                var currentGuild = db.Guilds.FirstOrDefault(g => g.ID == guildID);
-                if (currentGuild is null)
-                {
-                    prefix = "s-";
-                }
-                else
-                {
-                    prefix = currentGuild.Prefix;
-                }
-            }
+            if (currentGuild is null)
+                prefix = "s-";
+            else
+                prefix = currentGuild.Prefix;
 
             if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||

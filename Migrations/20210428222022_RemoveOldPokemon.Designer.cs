@@ -9,8 +9,8 @@ using TreeckoV2.Models;
 namespace TreeckoV2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210428145542_DiscordGuild")]
-    partial class DiscordGuild
+    [Migration("20210428222022_RemoveOldPokemon")]
+    partial class RemoveOldPokemon
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

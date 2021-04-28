@@ -23,5 +23,7 @@ namespace TreeckoV2.Models
         public int Special_Attack { get; set; }
         public int Special_Defense { get; set; }
         public int Speed { get; set; }
+
+
     }
 }
