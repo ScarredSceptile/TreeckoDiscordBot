@@ -7,7 +7,7 @@ using System.Text;
 
 namespace TreeckoV2.Models
 {
-    class PokedexEntry
+    public class PokedexEntry
     {
         [Key]
         public int ID { get; set; }

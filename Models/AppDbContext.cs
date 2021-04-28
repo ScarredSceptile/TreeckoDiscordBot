@@ -2,7 +2,7 @@
 
 namespace TreeckoV2.Models
 {
-    class AppDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<Pokemon> Pokemon { get; set; }
         public DbSet<PokedexEntry> PokedexEntry { get; set; }
@@ -13,6 +13,7 @@ namespace TreeckoV2.Models
         public DbSet<PokemonMoveRelationTMHM> TMHMMoves { get; set; }
         public DbSet<PokemonMoveRelationTutor> TutorMoves { get; set; }
         public DbSet<PokemonMoveRelationEggMove> EggMoves { get; set; }
+        public DbSet<DiscordGuild> Guilds { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

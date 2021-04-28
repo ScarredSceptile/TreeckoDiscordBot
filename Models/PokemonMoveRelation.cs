@@ -8,7 +8,7 @@ using System.Text;
 namespace TreeckoV2.Models
 {
     [Keyless]
-    class PokemonMoveRelation
+    public class PokemonMoveRelation
     {
         [ForeignKey("Pokemon")]
         public int PokemonNr { get; set; }

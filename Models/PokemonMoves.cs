@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TreeckoV2.Models
 {
-    class PokemonMoves
+    public class PokemonMoves
     {
         [Key]
         public int ID { get; set; }
@@ -18,6 +18,6 @@ namespace TreeckoV2.Models
         public string Description { get; set; }
         public string SecondaryEffect { get; set; }
         //Is in percent
-        public int SecondaryEffectRate { get; set; }
+        public int? SecondaryEffectRate { get; set; }
     }
 }

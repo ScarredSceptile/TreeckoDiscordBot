@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TreeckoV2.Models
 {
-    class PokemonMoveRelationTutor : PokemonMoveRelation
+    public class PokemonMoveRelationTutor : PokemonMoveRelation
     {
         public int Price { get; set; }
     }

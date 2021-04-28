@@ -1,11 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 using TreeckoV2.Discord;
+using TreeckoV2.Models;
 
 namespace TreeckoV2
 {
@@ -46,6 +47,7 @@ namespace TreeckoV2
             _initialize.BuildServiceProvider();
 
             _client.MessageUpdated += MessageUpdated;
+            _client.JoinedGuild += JoinedGuild;
 
             _client.Ready += () =>
             {
@@ -60,6 +62,25 @@ namespace TreeckoV2
         {
             var message = await before.GetOrDownloadAsync();
             Console.WriteLine($"{message} → {after}");
+        }
+
+        private async Task JoinedGuild(SocketGuild guild)
+        {
+            ulong guildID = guild.Id;
+
+            using (var context = new AppDbContext())
+            {
+                if (context.Guilds.FirstOrDefault(g => g.ID == guildID) is null)
+                {
+                    DiscordGuild newGuild = new DiscordGuild
+                    {
+                        ID = guildID,
+                        Prefix = "s-"
+                    };
+                    context.Guilds.Add(newGuild);
+                }
+                await context.SaveChangesAsync();
+            }
         }
 
         private Task Log(LogMessage msg)

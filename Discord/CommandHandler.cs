@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TreeckoV2.Commands;
+using TreeckoV2.Models;
 
 namespace TreeckoV2.Discord
 {
@@ -40,7 +41,28 @@ namespace TreeckoV2.Discord
 
             int argPos = 0;
 
-            if (!(message.HasStringPrefix("s-", ref argPos) ||
+            string prefix;
+
+            var channel = message.Channel as SocketGuildChannel;
+
+            var guildID = channel.Guild.Id;
+
+            using (var db = new AppDbContext())
+            {
+                Console.WriteLine(guildID);
+
+                var currentGuild = db.Guilds.FirstOrDefault(g => g.ID == guildID);
+                if (currentGuild is null)
+                {
+                    prefix = "s-";
+                }
+                else
+                {
+                    prefix = currentGuild.Prefix;
+                }
+            }
+
+            if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
             {

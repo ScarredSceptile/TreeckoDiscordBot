@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TreeckoV2.Models
 {
-    class PokemonMoveRelationEggMove : PokemonMoveRelation
+    public class PokemonMoveRelationEggMove : PokemonMoveRelation
     {
     }
 }
