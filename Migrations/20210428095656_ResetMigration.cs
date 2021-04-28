@@ -2,7 +2,7 @@
 
 namespace TreeckoV2.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class ResetMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,45 +28,18 @@ namespace TreeckoV2.Migrations
                 {
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Category = table.Column<int>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Category = table.Column<string>(type: "TEXT", nullable: false),
                     PowerPoints = table.Column<int>(type: "INTEGER", nullable: false),
                     Power = table.Column<int>(type: "INTEGER", nullable: true),
                     Accuracy = table.Column<int>(type: "INTEGER", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    PrimaryEffect = table.Column<string>(type: "TEXT", nullable: true),
                     SecondaryEffect = table.Column<string>(type: "TEXT", nullable: true),
                     SecondaryEffectRate = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Moves", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OldPokemon",
-                columns: table => new
-                {
-                    DexNr = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    japName = table.Column<string>(type: "TEXT", nullable: true),
-                    Type = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Classification = table.Column<string>(type: "TEXT", nullable: true),
-                    Height = table.Column<float>(type: "REAL", nullable: false),
-                    Weight = table.Column<float>(type: "REAL", nullable: false),
-                    HP = table.Column<int>(type: "INTEGER", nullable: false),
-                    Atk = table.Column<int>(type: "INTEGER", nullable: false),
-                    Def = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpAtk = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpDef = table.Column<int>(type: "INTEGER", nullable: false),
-                    Spd = table.Column<int>(type: "INTEGER", nullable: false),
-                    Pic = table.Column<string>(type: "TEXT", nullable: true),
-                    PicShiny = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OldPokemon", x => x.DexNr);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,12 +115,15 @@ namespace TreeckoV2.Migrations
                 name: "PokedexEntry",
                 columns: table => new
                 {
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     PokemonNr = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Game = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_PokedexEntry", x => x.ID);
                     table.ForeignKey(
                         name: "FK_PokedexEntry_Pokemon_PokemonNr",
                         column: x => x.PokemonNr,
@@ -160,6 +136,8 @@ namespace TreeckoV2.Migrations
                 name: "Stats",
                 columns: table => new
                 {
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     PokemonNr = table.Column<int>(type: "INTEGER", nullable: false),
                     Generation = table.Column<string>(type: "TEXT", nullable: true),
                     HP = table.Column<int>(type: "INTEGER", nullable: false),
@@ -171,6 +149,7 @@ namespace TreeckoV2.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Stats", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Stats_Pokemon_PokemonNr",
                         column: x => x.PokemonNr,
@@ -289,9 +268,6 @@ namespace TreeckoV2.Migrations
 
             migrationBuilder.DropTable(
                 name: "LevelUpMoves");
-
-            migrationBuilder.DropTable(
-                name: "OldPokemon");
 
             migrationBuilder.DropTable(
                 name: "PokedexEntry");

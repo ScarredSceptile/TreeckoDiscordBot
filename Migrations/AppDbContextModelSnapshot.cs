@@ -187,10 +187,14 @@ namespace TreeckoV2.Migrations
                     b.Property<int?>("Accuracy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Power")
@@ -198,9 +202,6 @@ namespace TreeckoV2.Migrations
 
                     b.Property<int>("PowerPoints")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("PrimaryEffect")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("SecondaryEffect")
                         .HasColumnType("TEXT");
