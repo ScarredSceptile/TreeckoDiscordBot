@@ -107,6 +107,46 @@ namespace TreeckoV2.Commands
             await PostList(pokes, $"{total} equal stats");
         }
 
+        [Command("Height"), Alias("H")]
+        public async Task PokemonByHeight(decimal height)
+        {
+            var context = new AppDbContext();
+
+            var pokes = context.Pokemon.AsQueryable().Where(p => p.Height == height).ToList();
+
+            await PostList(pokes, $"{height}m");
+        }
+
+        [Command("Height"), Alias("H")]
+        public async Task PokemonByHeight(decimal height, int length)
+        {
+            var context = new AppDbContext();
+
+            var pokes = context.Pokemon.AsQueryable().Where(p => p.Height == height && p.Name.Length == length).ToList();
+
+            await PostList(pokes, $"{height}m and {length} name length");
+        }
+
+        [Command("Weight"), Alias("W")]
+        public async Task PokemonByWeight(decimal weight)
+        {
+            var context = new AppDbContext();
+
+            var pokes = context.Pokemon.AsQueryable().Where(p => p.Weight == weight).ToList();
+
+            await PostList(pokes, $"{weight}kg");
+        }
+
+        [Command("Weight"), Alias("W")]
+        public async Task PokemonByWeight(decimal weight, int length)
+        {
+            var context = new AppDbContext();
+
+            var pokes = context.Pokemon.AsQueryable().Where(p => p.Weight == weight && p.Name.Length == length).ToList();
+
+            await PostList(pokes, $"{weight}kg and {length} name length");
+        }
+
         [Command("Classification"), Alias("C")]
         public async Task PokemonByClassification([Remainder]string classification)
         {

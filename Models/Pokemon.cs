@@ -15,8 +15,8 @@ namespace TreeckoV2.Models
         public string japName { get; set; }
         public string Type { get; set; }
         public string Classification { get; set; }
-        public float Height { get; set; }
-        public float Weight { get; set; }
+        public decimal Height { get; set; }
+        public decimal Weight { get; set; }
         public string Pic { get; set; }
         public string PicShiny { get; set; }
     }

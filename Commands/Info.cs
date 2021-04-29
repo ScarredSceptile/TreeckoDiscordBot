@@ -32,6 +32,8 @@ namespace TreeckoV2.Commands
                 commands += "\n**Pokemon EqualStats** *{amount} {name length}* - Get all pokemon with *{amount}* equal stats";
                 commands += "\n**Pokemon Classification {classification} - Get all pokemon with classification**";
                 commands += "\n**Pokemon IncompleteName** {name} - Gets all pokemon the name fits. Requires adding all blanks!";
+                commands += "\n**Pokemon Weight** {name} - Gets all pokemon by Weight";
+                commands += "\n**Pokemon Height** {name} - Gets all pokemon by Height";
                 commands += "\n**Pokemon Shiny** - Add the shiny to get the shiny image. Works with random and *{Name/ID}*";
 
                 embed.Description = commands;
@@ -51,6 +53,7 @@ namespace TreeckoV2.Commands
                 commands += "\n**Commands** - Gives this list";
                 commands += "\n**Git** - Provides git repository with all published code";
                 commands += "\n**SetPrefix** *{prefix}* - Changes prefix or resets with empty. Max 3 chars long";
+                commands += "\n**GetPrefix** - Posts the current prefix for the server";
                 commands += "\n**Pokemon** - Use \"Commands Pokemon\" for more info";
 
                 embed.Description = commands;
@@ -62,7 +65,7 @@ namespace TreeckoV2.Commands
         
 
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Command("SetPrefix"), Alias("Prefix")]
+        [Command("SetPrefix")]
         public async Task ResetPrefix()
         {
             ulong guildID = Context.Guild.Id;
@@ -77,7 +80,7 @@ namespace TreeckoV2.Commands
         }
 
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Command("SetPrefix"), Alias("Prefix")]
+        [Command("SetPrefix")]
         public async Task SetPrefix([Remainder] string prefix)
         {
             if (prefix.Length > 3)
@@ -97,7 +100,7 @@ namespace TreeckoV2.Commands
             }
         }
 
-        [Command("GetPrefix")]
+        [Command("GetPrefix"), Alias("Prefix")]
         public async Task GetPrefix()
         {
             using (var context = new AppDbContext())

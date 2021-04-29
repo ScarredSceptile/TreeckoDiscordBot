@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeckoV2.Models;
 
 namespace TreeckoV2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210429193446_TempAddOldPokemon")]
+    partial class TempAddOldPokemon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,62 @@ namespace TreeckoV2.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Guilds");
+                });
+
+            modelBuilder.Entity("TreeckoV2.Models.OldPokemon", b =>
+                {
+                    b.Property<int>("DexNr")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Atk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Classification")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Def")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HP")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Pic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PicShiny")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SpAtk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SpDef")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Spd")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("japName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DexNr");
+
+                    b.ToTable("OldPokemon");
                 });
 
             modelBuilder.Entity("TreeckoV2.Models.PokedexEntry", b =>

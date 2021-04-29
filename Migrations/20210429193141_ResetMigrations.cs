@@ -56,33 +56,6 @@ namespace TreeckoV2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OldPokes",
-                columns: table => new
-                {
-                    DexNr = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    japName = table.Column<string>(type: "TEXT", nullable: true),
-                    Type = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Classification = table.Column<string>(type: "TEXT", nullable: true),
-                    Height = table.Column<float>(type: "REAL", nullable: false),
-                    Weight = table.Column<float>(type: "REAL", nullable: false),
-                    HP = table.Column<int>(type: "INTEGER", nullable: false),
-                    Atk = table.Column<int>(type: "INTEGER", nullable: false),
-                    Def = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpAtk = table.Column<int>(type: "INTEGER", nullable: false),
-                    SpDef = table.Column<int>(type: "INTEGER", nullable: false),
-                    Spd = table.Column<int>(type: "INTEGER", nullable: false),
-                    Pic = table.Column<string>(type: "TEXT", nullable: true),
-                    PicShiny = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OldPokes", x => x.DexNr);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pokemon",
                 columns: table => new
                 {
@@ -92,8 +65,8 @@ namespace TreeckoV2.Migrations
                     japName = table.Column<string>(type: "TEXT", nullable: true),
                     Type = table.Column<string>(type: "TEXT", nullable: true),
                     Classification = table.Column<string>(type: "TEXT", nullable: true),
-                    Height = table.Column<float>(type: "REAL", nullable: false),
-                    Weight = table.Column<float>(type: "REAL", nullable: false),
+                    Height = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Weight = table.Column<decimal>(type: "TEXT", nullable: false),
                     Pic = table.Column<string>(type: "TEXT", nullable: true),
                     PicShiny = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -311,9 +284,6 @@ namespace TreeckoV2.Migrations
 
             migrationBuilder.DropTable(
                 name: "LevelUpMoves");
-
-            migrationBuilder.DropTable(
-                name: "OldPokes");
 
             migrationBuilder.DropTable(
                 name: "PokedexEntry");

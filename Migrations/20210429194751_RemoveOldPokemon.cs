@@ -7,13 +7,13 @@ namespace TreeckoV2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OldPokes");
+                name: "OldPokemon");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OldPokes",
+                name: "OldPokemon",
                 columns: table => new
                 {
                     DexNr = table.Column<int>(type: "INTEGER", nullable: false)
@@ -36,7 +36,7 @@ namespace TreeckoV2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OldPokes", x => x.DexNr);
+                    table.PrimaryKey("PK_OldPokemon", x => x.DexNr);
                 });
         }
     }
