@@ -30,6 +30,8 @@ namespace TreeckoV2.Commands
                 commands += "**Pokemon** *{Name/ID}* - Get information about the pokemon";
                 commands += "\n**Pokemon Random** - Get a random pokemon";
                 commands += "\n**Pokemon EqualStats** *{amount} {name length}* - Get all pokemon with *{amount}* equal stats";
+                commands += "\n**Pokemon Classification {classification} - Get all pokemon with classification**";
+                commands += "\n**Pokemon IncompleteName** {name} - Gets all pokemon the name fits. Requires adding all blanks!";
                 commands += "\n**Pokemon Shiny** - Add the shiny to get the shiny image. Works with random and *{Name/ID}*";
 
                 embed.Description = commands;

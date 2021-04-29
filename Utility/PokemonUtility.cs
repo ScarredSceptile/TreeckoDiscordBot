@@ -88,35 +88,25 @@ namespace TreeckoV2.Utility
             var rand = new Random();
             int index = rand.Next(context.Pokemon.Count()) + 1;
 
-            var poke = context.Pokemon.FirstOrDefault(p => p.DexNr == index);
-
-            var stats = context.Stats.FirstOrDefault(s => s.PokemonNr == poke.DexNr);
+            var poke = GetPokemonByID(index);
+            var stats = GetStatsById(poke.DexNr);
 
             return (poke, stats);
         }
 
         public static (Pokemon poke, PokemonStats stat) GetPokemon(string content)
         {
-            var context = new AppDbContext();
             Pokemon poke;
 
             if (content.All(Char.IsDigit))
-            {
-                Console.WriteLine("Content is Digit");
                 poke = GetPokemonByID(Convert.ToInt32(content));
-            }
-
             else
-            {
-                Console.WriteLine("Content is a string");
                 poke = GetPokemonByName(content);
-            }
 
             if (poke is null)
                 return (null, null);
 
-            Console.WriteLine($"Finding stats with {poke.DexNr}");
-            var stats = context.Stats.FirstOrDefault(s => s.PokemonNr == poke.DexNr);
+            var stats = GetStatsById(poke.DexNr);
 
             return (poke, stats);
         }
@@ -131,6 +121,12 @@ namespace TreeckoV2.Utility
         {
             var context = new AppDbContext();
             return context.Pokemon.FirstOrDefault(p => p.Name.ToLower() == name.ToLower() || p.japName == name);
+        }
+
+        public static PokemonStats GetStatsById(int ID)
+        {
+            var context = new AppDbContext();
+            return context.Stats.FirstOrDefault(s => s.PokemonNr == ID);
         }
     }
 }

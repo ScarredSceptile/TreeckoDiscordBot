@@ -58,7 +58,7 @@ namespace TreeckoV2.Commands
             }
         }
 
-        [Command("Name"), Alias("N")]
+        [Command("IncompleteName"), Alias("IN")]
         public async Task IncompleteName(string name)
         {
             Dictionary<char, int> dict = new Dictionary<char, int>();
@@ -76,26 +76,7 @@ namespace TreeckoV2.Commands
             }
 
             var pokes = PokemonUtility.GetPokemonByIncompleteName(dict, length);
-            string allPoke = "";
-
-            foreach (var poke in pokes)
-            {
-                //DO not get any messages longer than 2k!
-                if (allPoke.Count() + poke.Name.Count() > 2000)
-                {
-                    await ReplyAsync(allPoke);
-                    allPoke = "";
-                }
-
-                allPoke += poke.Name + '\n';
-            }
-            if (allPoke.Length == 0)
-            {
-                await ReplyAsync($"Unable to find any pokemon with {name}");
-                return;
-            }
-
-            await ReplyAsync(allPoke);
+            await PostList(pokes, $"{name}");
         }
 
         [Command("EqualStats"), Alias("ES")]
@@ -108,27 +89,10 @@ namespace TreeckoV2.Commands
             }
 
             var pokes = PokemonUtility.GetPokemonEqualStats(total, length);
-            string allPoke = "";
 
-            foreach (var poke in pokes)
-            {
-                //DO not get any messages longer than 2k!
-                if (allPoke.Count() + poke.Name.Count() > 2000)
-                {
-                    await ReplyAsync(allPoke);
-                    allPoke = "";
-                }
-
-                allPoke += poke.Name + '\n';
-            }
-            if (allPoke.Length == 0)
-            {
-                await ReplyAsync($"Unable to find any pokemon with {total} equal stats and a name with length {length}");
-                return;
-            }
-
-            await ReplyAsync(allPoke);
+            await PostList(pokes, $"{total} equal stats and name length of {length}");
         }
+
         [Command("EqualStats"), Alias("ES")]
         public async Task EqualStatsAll(int total)
         {
@@ -139,27 +103,18 @@ namespace TreeckoV2.Commands
             }
 
             var pokes = PokemonUtility.GetPokemonEqualStats(total, 0);
-            string allPoke = "";
 
-            foreach (var poke in pokes)
-            {
-                //DO not get any messages longer than 2k!
-                if (allPoke.Count() + poke.Name.Count() > 2000)
-                {
-                    await ReplyAsync(allPoke);
-                    allPoke = "";
-                }
+            await PostList(pokes, $"{total} equal stats");
+        }
 
-                allPoke += poke.Name + '\n';
-            }
+        [Command("Classification"), Alias("C")]
+        public async Task PokemonByClassification([Remainder]string classification)
+        {
+            var context = new AppDbContext();
 
-            if (allPoke.Length == 0)
-            {
-                await ReplyAsync($"Unable to find any pokemon with {total} equal stats");
-                return;
-            }
+            var pokes = context.Pokemon.AsQueryable().Where(p => p.Classification.ToLower().Contains(classification.ToLower())).ToList();
 
-            await ReplyAsync(allPoke);
+            await PostList(pokes, $"{classification} classification");
         }
 
         [Priority(1)]
@@ -206,6 +161,31 @@ namespace TreeckoV2.Commands
             var embed = PokemonUtility.PokeEmbed(poke.poke, poke.stat, poke.poke.Pic);
 
             await ReplyAsync(embed: embed.Build());
+        }
+
+        public async Task PostList(List<Pokemon> pokes, string content)
+        {
+            string allPoke = "";
+
+            foreach (var poke in pokes)
+            {
+                //DO not get any messages longer than 2k!
+                if (allPoke.Count() + poke.Name.Count() > 2000)
+                {
+                    await ReplyAsync(allPoke);
+                    allPoke = "";
+                }
+
+                allPoke += poke.Name + '\n';
+            }
+
+            if (allPoke.Length == 0)
+            {
+                await ReplyAsync($"Unable to find any pokemon with {content}");
+                return;
+            }
+
+            await ReplyAsync(allPoke);
         }
     }
 }
