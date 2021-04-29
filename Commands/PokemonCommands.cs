@@ -58,41 +58,24 @@ namespace TreeckoV2.Commands
             }
         }
 
-        [NamedArgumentType]
-        public class EqualStatsNameableArguments
+        [Command("Name"), Alias("N")]
+        public async Task IncompleteName(string name)
         {
-            public int Total { get; set; }
-            public int NameLength { get; set; }
-        }
+            Dictionary<char, int> dict = new Dictionary<char, int>();
 
-        [Command("EqualStats"), Alias("ES")]
-        public async Task EqualStats(int total, int length)
-        {
-            var context = new AppDbContext();
-            if (total < 2 || total > 6)
+            int index = 0;
+            int length = name.Length;
+
+            foreach (char ch in name)
             {
-                await ReplyAsync("Please provie a number between 2 and 6, including 2 and 6");
-                return;
-            }
-
-            var allPokes = context.Pokemon.ToList();
-
-            List<Pokemon> pokes = new List<Pokemon>();
-
-            foreach(var poke in allPokes)
-            {
-                if (poke.Name.Length != length)
-                    continue;
-
-                var stats = context.Stats.AsQueryable().Where(s => s.PokemonNr == poke.DexNr).ToList();
-
-                foreach (var stat in stats)
+                if (char.IsLetter(ch))
                 {
-                    if (PokemonUtility.EqualStatsAmount(stat) == total && !pokes.Contains(poke))
-                        pokes.Add(poke);
+                    dict.Add(ch, index);
                 }
+                index++;
             }
 
+            var pokes = PokemonUtility.GetPokemonByIncompleteName(dict, length);
             string allPoke = "";
 
             foreach (var poke in pokes)
@@ -105,6 +88,75 @@ namespace TreeckoV2.Commands
                 }
 
                 allPoke += poke.Name + '\n';
+            }
+            if (allPoke.Length == 0)
+            {
+                await ReplyAsync($"Unable to find any pokemon with {name}");
+                return;
+            }
+
+            await ReplyAsync(allPoke);
+        }
+
+        [Command("EqualStats"), Alias("ES")]
+        public async Task EqualStats(int total, int length = 0)
+        {
+            if (total < 2 || total > 6)
+            {
+                await ReplyAsync("Please provie a total between 2 and 6, including 2 and 6");
+                return;
+            }
+
+            var pokes = PokemonUtility.GetPokemonEqualStats(total, length);
+            string allPoke = "";
+
+            foreach (var poke in pokes)
+            {
+                //DO not get any messages longer than 2k!
+                if (allPoke.Count() + poke.Name.Count() > 2000)
+                {
+                    await ReplyAsync(allPoke);
+                    allPoke = "";
+                }
+
+                allPoke += poke.Name + '\n';
+            }
+            if (allPoke.Length == 0)
+            {
+                await ReplyAsync($"Unable to find any pokemon with {total} equal stats and a name with length {length}");
+                return;
+            }
+
+            await ReplyAsync(allPoke);
+        }
+        [Command("EqualStats"), Alias("ES")]
+        public async Task EqualStatsAll(int total)
+        {
+            if (total < 2 || total > 6)
+            {
+                await ReplyAsync("Please provie a total between 2 and 6, including 2 and 6");
+                return;
+            }
+
+            var pokes = PokemonUtility.GetPokemonEqualStats(total, 0);
+            string allPoke = "";
+
+            foreach (var poke in pokes)
+            {
+                //DO not get any messages longer than 2k!
+                if (allPoke.Count() + poke.Name.Count() > 2000)
+                {
+                    await ReplyAsync(allPoke);
+                    allPoke = "";
+                }
+
+                allPoke += poke.Name + '\n';
+            }
+
+            if (allPoke.Length == 0)
+            {
+                await ReplyAsync($"Unable to find any pokemon with {total} equal stats");
+                return;
             }
 
             await ReplyAsync(allPoke);

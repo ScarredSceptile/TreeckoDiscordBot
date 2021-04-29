@@ -9,6 +9,31 @@ namespace TreeckoV2.Utility
 {
     public static class PokemonUtility
     {
+        public static List<Pokemon> GetPokemonEqualStats(int total, int length)
+        {
+            var context = new AppDbContext();
+
+            var allPokes = context.Pokemon.ToList();
+
+            List<Pokemon> pokes = new List<Pokemon>();
+
+            foreach (var poke in allPokes)
+            {
+                if (poke.Name.Length != length && length != 0)
+                    continue;
+
+                var stats = context.Stats.AsQueryable().Where(s => s.PokemonNr == poke.DexNr).ToList();
+
+                foreach (var stat in stats)
+                {
+                    if (EqualStatsAmount(stat) == total && !pokes.Contains(poke))
+                        pokes.Add(poke);
+                }
+            }
+
+            return pokes;
+        }
+
         public static int EqualStatsAmount(PokemonStats stats)
         {
             var list = new List<int>
@@ -21,22 +46,30 @@ namespace TreeckoV2.Utility
                 stats.Speed
             };
 
-            int mostCommon = list.GroupBy(item => item)
-                .Max(item => item.Count());
+            int mostCommon = list.GroupBy(item => item).Max(item => item.Count());
 
             return mostCommon;
+        }
+
+        public static List<Pokemon> GetPokemonByIncompleteName(Dictionary<char, int> dict, int length)
+        {
+            var context = new AppDbContext();
+
+            var pokes = context.Pokemon.AsEnumerable().Where(p => dict.ToList().All(d => p.Name.ToLower()[d.Value] == char.ToLower(d.Key)) == true && p.Name.Length == length).ToList();
+
+            return pokes;
         }
 
         public static EmbedBuilder PokeEmbed(Pokemon poke, PokemonStats stats, string image)
         {
             var embed = new EmbedBuilder();
 
-            embed.WithAuthor($"{poke.DexNr}. {poke.Name}");
+            embed.WithAuthor($"{poke.DexNr}. {poke.Name} {poke.japName}");
             embed.WithThumbnailUrl(image);
 
             embed.WithDescription(
                 $"**Type:** {poke.Type}\n\n" +
-                $"{poke.Classification}\n\n" +
+                $"{poke.Classification} Pokémon\n\n" +
                 $"**HP:** {stats.HP}\n" +
                 $"**Attack:** {stats.Attack}\n" +
                 $"**Defense:** {stats.Defense}\n" +

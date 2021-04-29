@@ -8,3 +8,4 @@ Commands:
 * Commands - Gives a list of available commands
 * Git - Returns the git repository with code
 * SetPrefix {prefix} - Changes prefix or resets with empty. Max 3 chars long
+* Pokemon - Use "Commands Pokemon" for more info

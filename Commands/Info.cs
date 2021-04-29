@@ -14,25 +14,52 @@ namespace TreeckoV2.Commands
         [Command("Git")]
         public async Task GetGit() => await ReplyAsync("https://github.com/ScarredSceptile/TreeckoDiscordBot");
 
-        [Command("Commands"), Alias("Help")]
-        public async Task GetCommand()
+
+        [Group("Commands"), Alias("Help")]
+        public class Help : ModuleBase<SocketCommandContext>
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.Title = "Treecko Commands";
+            [Priority(1)]
+            [Command("Pokemon"), Alias("Poke", "P")]
+            public async Task HelpPokemon()
+            {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.Title = "Pokemon Commands";
 
-            string commands = "";
+                string commands = "";
 
-            commands += "Say - Repeats what you said";
-            commands += "\nCommands - Gives this list";
-            commands += "\nGit - Provides git repository with all published code";
-            commands += "\nSetPrefix {prefix} - Changes prefix or resets with empty. Max 3 chars long";
+                commands += "**Pokemon** *{Name/ID}* - Get information about the pokemon";
+                commands += "\n**Pokemon Random** - Get a random pokemon";
+                commands += "\n**Pokemon EqualStats** *{amount} {name length}* - Get all pokemon with *{amount}* equal stats";
+                commands += "\n**Pokemon Shiny** - Add the shiny to get the shiny image. Works with random and *{Name/ID}*";
 
-            embed.Description = commands;
+                embed.Description = commands;
+
+                await ReplyAsync(embed: embed.Build());
+            }
+
+            [Command()]
+            public async Task GetCommand()
+            {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.Title = "Treecko Commands";
+
+                string commands = "";
+
+                commands += "**Say** - Repeats what you said";
+                commands += "\n**Commands** - Gives this list";
+                commands += "\n**Git** - Provides git repository with all published code";
+                commands += "\n**SetPrefix** *{prefix}* - Changes prefix or resets with empty. Max 3 chars long";
+                commands += "\n**Pokemon** - Use \"Commands Pokemon\" for more info";
+
+                embed.Description = commands;
 
 
-            await ReplyAsync(embed: embed.Build());
+                await ReplyAsync(embed: embed.Build());
+            }
         }
+        
 
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Command("SetPrefix"), Alias("Prefix")]
         public async Task ResetPrefix()
         {
@@ -47,6 +74,7 @@ namespace TreeckoV2.Commands
             }
         }
 
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Command("SetPrefix"), Alias("Prefix")]
         public async Task SetPrefix([Remainder] string prefix)
         {
