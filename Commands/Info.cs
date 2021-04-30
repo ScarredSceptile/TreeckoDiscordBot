@@ -41,6 +41,23 @@ namespace TreeckoV2.Commands
                 await ReplyAsync(embed: embed.Build());
             }
 
+            [Priority(1)]
+            [Command("Admin")]
+            public async Task GetAdminCommands()
+            {
+
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.Title = "Admin Commands";
+
+                string commands = "";
+
+                commands += "**SetPrefix** *{prefix}* - Changes prefix or resets with empty. Max 3 chars long";
+
+                embed.Description = commands;
+
+                await ReplyAsync(embed: embed.Build());
+            }
+
             [Command()]
             public async Task GetCommand()
             {
@@ -52,12 +69,10 @@ namespace TreeckoV2.Commands
                 commands += "**Say** - Repeats what you said";
                 commands += "\n**Commands** - Gives this list";
                 commands += "\n**Git** - Provides git repository with all published code";
-                commands += "\n**SetPrefix** *{prefix}* - Changes prefix or resets with empty. Max 3 chars long";
                 commands += "\n**GetPrefix** - Posts the current prefix for the server";
                 commands += "\n**Pokemon** - Use \"Commands Pokemon\" for more info";
 
                 embed.Description = commands;
-
 
                 await ReplyAsync(embed: embed.Build());
             }

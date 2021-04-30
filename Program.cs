@@ -84,7 +84,11 @@ namespace TreeckoV2
 
         private string GetToken()
         {
+#if DEBUG
             var file = @"D:\Treecko\TreeckoV2\TreeckoV2\Data\Token.txt";
+#else
+            var file = @"D:\Treecko\Data\Token.txt";
+#endif
 
             return File.ReadAllText(file);
         }

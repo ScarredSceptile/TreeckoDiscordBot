@@ -55,7 +55,7 @@ namespace TreeckoV2.Utility
         {
             var context = new AppDbContext();
 
-            var pokes = context.Pokemon.AsEnumerable().Where(p => dict.ToList().All(d => p.Name.ToLower()[d.Value] == char.ToLower(d.Key)) == true && p.Name.Length == length).ToList();
+            var pokes = context.Pokemon.AsEnumerable().Where(p => p.Name.Length == length).ToList().Where(p => dict.AsQueryable().ToArray().All(d => char.ToLower(p.Name[d.Value]) == char.ToLower(d.Key)) == true).ToList();
 
             return pokes;
         }

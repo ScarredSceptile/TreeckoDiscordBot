@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace TreeckoV2.Models
 {
@@ -17,7 +20,11 @@ namespace TreeckoV2.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+#if DEBUG
             optionsBuilder.UseSqlite(@"Data Source=D:\Treecko\TreeckoV2\TreeckoV2\Data\Pokemon.sqlite");
+#else
+            optionsBuilder.UseSqlite(@"Data Source=D:\Treecko\Data\Pokemon.sqlite");
+#endif
         }
     }
 }

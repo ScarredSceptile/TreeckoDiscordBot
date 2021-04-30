@@ -70,6 +70,7 @@ namespace TreeckoV2.Commands
             {
                 if (char.IsLetter(ch))
                 {
+                    Console.WriteLine($"Char: {ch}, Index: {index}");
                     dict.Add(ch, index);
                 }
                 index++;
